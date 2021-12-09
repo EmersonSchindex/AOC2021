@@ -2,26 +2,34 @@ def main(f):
     with open(f, "r") as file1:
         lines = [(line.strip()).split('|') for line in file1 if line.strip()]
 
-    print(lines)
 #    print(part1(lines))
-#   print(part2(lanternfish))
+    print(part2(lines))
 
 def part1(lines):  # sourcery no-metrics
 
-    numberofchars = 0
-
-    for l in range(1, len(lines), 2):
-        for ll in range(len(lines[l])):
-
-            print(lines[l], end =" ")
-
-    return numberofchars
+    numberofcodes = 0
     
-def part2(fish):
+    for l in range(len(lines)):
+        teststring = lines[l]
+        teststring[1].split(',')
+        for code in teststring[1].split(" "):
+            if len(code) in(2, 3, 4, 7):
+                numberofcodes += 1
 
-    y = 2
+    return numberofcodes
     
-    return y
+def part2(lines):
 
+    numberofcodes = 0
+    
+    for l in range(len(lines)):
+        teststring = lines[l]
+        teststring[1].split(',')
+        for code in teststring[1].split(" "):
+            if len(code) in(2, 3, 4, 7):
+                numberofcodes += 1
+
+    return numberofcodes
+    
 if __name__ == "__main__":
     main('test.txt')
