@@ -4,7 +4,7 @@ def main(f):
     with open(f, "r") as file1:
         lines = [(line.strip()).split('|') for line in file1 if line.strip()]
 
-#    print(part1(lines))
+    print(part1(lines))
     print(part2(lines))
 
 def part1(lines):
@@ -37,18 +37,17 @@ def check_balance(expression):
         elif c in closelist:
             closestack.append(c)
             pos = closelist.index(c)
-            if len(openstack) > 0 and openstack[-1] == openlist[pos]:
+            if openstack and openstack[-1] == openlist[pos]:
                 openstack.pop()
                 closestack.pop()
             else:
                 closestack.append(c)
-    
+
     return closestack
 
 def check_balance2(expression):
     openlist = ['(', '[', '{', '<']
     closelist = [')', ']', '}', '>']
-    points = [1, 2, 3, 4]
     score = 0
     openstack = []
     closestack = []
@@ -58,14 +57,15 @@ def check_balance2(expression):
         elif c in closelist:
             closestack.append(c)
             pos = closelist.index(c)
-            if len(openstack) > 0 and openstack[-1] == openlist[pos]:
+            if openstack and openstack[-1] == openlist[pos]:
                 openstack.pop()
                 closestack.pop()
             else:
                 closestack.append(c)
-    
-    if len(closestack) == 0:
+
+    if not closestack:
         openstack.reverse()
+        points = [1, 2, 3, 4]
         for c in openstack:
             pos = openlist.index(c)
             score = (score * 5) + points[pos]
