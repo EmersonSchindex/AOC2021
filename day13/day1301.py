@@ -49,7 +49,6 @@ def part2(lines):
     coord = []
     folddirection = ''
     foldvalue = 0
-    count = 0
     matrix = [[0 for col in range(51)] for row in range(51)]
     for l in range(len(lines)):
         if len(lines[l]) > 0 and lines[l][0] != 'f':
@@ -77,15 +76,17 @@ def part2(lines):
                         if folddirection == 'x' and coord[c][0] > foldvalue:
                             coord[c][0] = foldvalue - (coord[c][0] - foldvalue)
 
-    for c in range(len(coord)):
-        x = coord[c][0]
-        y = coord[c][1]
-        matrix[x][y] = 1
-
-    for m in range(len(matrix)):
-        print(matrix[m])
-
-    return(foldvalue)
+    print('\n'.join(''.join('▓' if [x, y] in coord else ' ' for x in range(40)) for y in range(6)), foldvalue)
+    
+#    for c in range(len(coord)):
+#        x = coord[c][0]
+#        y = coord[c][1]
+#        matrix[x][y] = 1
+#
+#   for m in range(len(matrix)):
+#        print(matrix[m])
+#
+#    return(foldvalue)
 
 if __name__ == "__main__":
     main('input.txt')
