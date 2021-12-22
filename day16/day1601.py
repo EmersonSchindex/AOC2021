@@ -15,32 +15,55 @@ transtable =  {
 
 def splitpackage(binpackage):
     s = 1
+#   Every packet begins with a standard header: 
+#   the first three bits encode the packet version, 
+#   and the next three bits encode the packet type ID. 
+#   These two values are numbers; 
+#   all numbers encoded in any packet are represented as binary with the most significant bit first.     
     
-    # decpackage = int('110', 2) # bin to dec conversion
+    for b in range(len(binpackage)):
+#        totallength = len(binpackage)
+        version = int(binpackage[:3], 2)
+        type = int(binpackage[3:6], 2)
+    
+# next read action is dependent on the value of type:
+# if the type == 4; then a number of literal values follow
+# if these start with a one there will be at least another one
+# if these start with a zero it indicates the last one
+# so each value has 5 bits, a leading 1 or 0 and 4 bits for the value
+# the total lenght of the package will be a multiple of 4 bits
+# any type othr than 4, indicates an operator
+# an operator package contains one or more packages
+# there are 2 modes to determine the number of packes:
+# if the bit immediately after the header is equal to zero, then the next 15 bits
+# are a number which represents the total length in bits of the subpackages contained
+# if the bit immediately after the header is equal to 1, then the next 11 bits
+# are the number of packages
 
-    # all fixed based on first example. How to make a dynamic function for this?
-    V = binpackage[:3]
-    V = int(V, 2)
+        if type != 4:
+            if int(binpackage[6]) == 0:
+                bitlength = int(binpackage[7:23], 2)
+            if int(binpackage[6]) == 1:
+                numofpackages = int(binpackage[7:18], 2)
+    
+        if type == 4:
+            binrep = ''
+            nextindicator = int(binpackage[6])
+            binrep += binpackage[7:11]
 
-    T = binpackage[3:6]
-    T = int(T, 2)
-
-    A = binpackage[7:10]
-    A = int(A, 2)
     
     return s
 
 def main(f):
-    # keep for later to read in file
-    """     transtable = {}
-    for line in open(f, 'r').readlines():
-        (k, v) = line.strip().split(' = ')
-        transtable[k] = v
-    """      
+# keep for later to read in file
+    file = open(f, 'r')
+    lines = file.read().strip().splitlines()
+    hexpackage = str(lines[0])
+
+#    hexpackage = 'D2FE28'
     
-    hexpackage = 'D2FE28'
-    
-    binpackage = bin(int(hexpackage, 16))[2:].rstrip('0') # already remove the trainling zeros
+    binpackage = bin(int(hexpackage, 16))[2:]
+#    binpackage = bin(int(hexpackage, 16))[2:].rstrip('0') # already remove the trainling zeros
     
     # add code to split binpackage in chuncks accoring to above rules
     # use the transtable
