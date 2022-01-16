@@ -15,6 +15,7 @@ transtable =  {
 
 def splitpackage(binpackage):
     s = 1
+    versionsum = 0
 #   Every packet begins with a standard header: 
 #   the first three bits encode the packet version, 
 #   and the next three bits encode the packet type ID. 
@@ -52,10 +53,11 @@ def splitpackage(binpackage):
             binrep += binpackage[7:11]
 
     
-    return s
+    return versionsum
 
 def main(f):
 # keep for later to read in file
+    sum = 0
     file = open(f, 'r')
     lines = file.read().strip().splitlines()
     hexpackage = str(lines[0])
@@ -67,7 +69,7 @@ def main(f):
     
     # add code to split binpackage in chuncks accoring to above rules
     # use the transtable
-    s = splitpackage(binpackage)        
+    sum = splitpackage(binpackage)        
 
     print(binpackage, len(binpackage))
 

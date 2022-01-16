@@ -7,15 +7,10 @@ roll3 = 0
 
 while scoreplayer[0] < 1000 and scoreplayer[1] < 1000:
     for i in range(2):
-        roll1 = roll3 + 1
-        if roll3 == 100:
-            roll1 = 1
-        roll2 = roll1 + 1
-        if roll1 == 100:
-            roll2 = 1
-        roll3 = roll2 + 1
-        if roll2 == 100:
-            roll3 = 1
+        roll1 = 1 if roll3 == 100 else roll3 + 1
+        roll2 = 1 if roll1 == 100 else roll1 + 1
+        roll3 = 1 if roll2 == 100 else roll2 + 1
+
         totalroll = roll1 + roll2 + roll3
         numberofrolls += 3
         posplayer[i] += totalroll
